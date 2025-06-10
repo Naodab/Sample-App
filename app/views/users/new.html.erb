@@ -3,12 +3,14 @@
   <h1>Sign up</h1>
   <div class="row">
     <div class="form-container">
-      <%= form_with(model: @user, local: true) do |f| %>
+      <%= form_with(model: @user, data: { turbo: false }) do |f| %>
+        <%= render "shared/error_messages" %>
+
         <%= f.label :name %>
         <%= f.text_field :name %>
 
         <%= f.label :email %>
-        <%= f.text_field :email %>
+        <%= f.email_field :email %>
 
         <%= f.label :password %>
         <%= f.password_field :password %>
