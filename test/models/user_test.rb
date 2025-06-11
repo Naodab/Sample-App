@@ -71,7 +71,7 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test "password should be at least one letter and one digest" do
+  test "password should include at least one letter and one digest" do
     @user.password = "a" * 6
     assert_not @user.valid?
   end
