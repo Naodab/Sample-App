@@ -1,0 +1,19 @@
+<%= provide(:title, "Log In") %>
+<div class="content-container center center--column">
+  <h1>Log In</h1>
+  <div class="row">
+    <div class="form-container">
+      <%= form_with(url: login_path, scope: :session, data: { turbo: false }) do |f| %>
+
+        <%= f.label :email %>
+        <%= f.email_field :email %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+
+        <%= f.submit "Login", class: "btn" %>
+      <% end %>
+    </div>
+  </div>
+  <p>New user? <%= link_to "Sign up now!", signup_path %></p>
+</div>
