@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   before_save :downcase_email
 
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@([a-z\d]+(-[a-z\d]+)*\.)+[a-z]+\z/i
   VALID_PASSWORD_REGEX = /\A(?=.*[A-Za-z])(?=.*\d).+\z/i
 
   validates :name, presence: true, length: { maximum: 50 }
