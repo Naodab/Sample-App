@@ -21,8 +21,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
       post users_path, params: { user: {
         name: "Example User",
         email: "user@example.com",
-        password: "password",
-        password_confirmation: "password"
+        password: "zzzz111",
+        password_confirmation: "zzzz111"
       } }
     end
     follow_redirect!
