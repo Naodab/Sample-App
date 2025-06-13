@@ -10,38 +10,26 @@ class UserTest < ActiveSupport::TestCase
     assert @user.valid?
   end
 
-  test "invalid without name" do
-    @user.name = "     "
-    assert_not @user.valid?
-  end
-
-  test "invalid when name is longer than 50 characters" do
-    @user.name = "a" * 51
-    assert_not @user.valid?
-  end
-
-  test "invalid without email" do
-    @user.email = "     "
-    assert_not @user.valid?
-  end
-
-  test "invalid when email is longer than 255 characters" do
-    @user.email = "a" * 244 + "@example.com"
-    assert_not @user.valid?
-  end
-
-  test "valid email addresses" do
-    valid_addresses = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org
-                          first.last@foo.jp alice+bob@baz.cn]
-    valid_addresses.each do |valid_addresses|
-      @user.email = valid_addresses
-      assert @user.valid?, "#{valid_addresses.inspect} should be valid"
+  test "invalid name format edges case" do
+    invalid_names = [
+      "   ",
+      "a" * 51
+    ]
+    invalid_names.each do |name|
+      @user.name = name
+      assert_not @user.valid?
     end
   end
 
-  test "invalid email addresses" do
-    invalid_addresses = %w[user@example,com user_at_foo.org user.name@example.
-                          foo@bar_baz.com foo@bar+baz.com foo@bar..com]
+  test "invalid email format edge cases" do
+    invalid_addresses = [
+      "",
+      "a" * 244 + "@example.com",
+      "user@.com",
+      "@example.com",
+      "user@example.",
+      "user@-example.com"
+    ]
     invalid_addresses.each do |invalid_address|
       @user.email = invalid_address
       assert_not @user.valid?, "#{invalid_address.inspect} should be invalid"
@@ -52,6 +40,15 @@ class UserTest < ActiveSupport::TestCase
     duplicate_user = @user.dup
     @user.save
     assert_not duplicate_user.valid?
+  end
+
+  test "valid email addresses" do
+    valid_addresses = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org
+                          first.last@foo.jp alice+bob@baz.cn]
+    valid_addresses.each do |valid_addresses|
+      @user.email = valid_addresses
+      assert @user.valid?, "#{valid_addresses.inspect} should be valid"
+    end
   end
 
   test "valid when email is saved as lower-case" do
