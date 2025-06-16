@@ -14,6 +14,12 @@
   box-sizing: border-box;
 }
 
+@mixin box_sizing {
+  -moz-boz-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -127,7 +133,6 @@ footer {
 
 .content-container {
   padding: 50px 0;
-  background-color: rgb(210, 230, 213);
 }
 
 h1 {
@@ -149,4 +154,123 @@ h2 {
 .content__link {
   color: rgb(58, 143, 223);
   font-weight: bold;
+}
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  padding: 0 -10px;
+}
+
+.user_info {
+  text-align: center;
+  padding: 20px;
+
+  h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+.gravatar {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.form-container {
+  margin-top: 32px;
+  width: 40%;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+
+    input, textarea, select, .uneditable-input {
+      border: 1px solid #bbb;
+      font-size: inherit;
+      width: 100%;
+      margin-bottom: 15px;
+      @include box_sizing;
+    }
+
+    input {
+      height: auto !important;
+      padding: 8px 16px;
+      border-radius: 4px;
+    }
+  }
+}
+
+#error_explanation {
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4d;
+  border-radius: 6px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  color: #b30000;
+
+  h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #b30000;
+  }
+
+  ul {
+    margin: 0.5rem 0 0 1.5rem;
+    padding-left: 1rem;
+  }
+
+  li {
+    margin-bottom: 0.3rem;
+    list-style-type: "❌ ";
+  }
+}
+
+.flash {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
 }
