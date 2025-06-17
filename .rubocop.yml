@@ -33,3 +33,6 @@ Style/Documentation:
 
 Naming/PredicatePrefix:
   Enabled: true
+
+Metrics/AbcSize:
+  Max: 25

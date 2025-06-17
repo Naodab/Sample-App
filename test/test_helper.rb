@@ -29,7 +29,7 @@ end
 
 module ActionDispatch
   class IntegrationTest
-    def log_in_as(user, password: "zzz111", remember_me: "1")
+    def log_in_as(user, password: 'zzz111', remember_me: '1')
       post login_path, params: { session: {
         email: user.email,
         password: password,

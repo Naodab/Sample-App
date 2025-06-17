@@ -1,4 +1,6 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class SessionsHelperTest < ActionView::TestCase
   def setup
@@ -6,7 +8,7 @@ class SessionsHelperTest < ActionView::TestCase
     remember_user @user
   end
 
-  test "current returns right when sessions is nil" do
+  test 'current returns right when sessions is nil' do
     assert_equal @user, current_user
     # assert is_logged_in?
   end
