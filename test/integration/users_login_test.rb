@@ -7,7 +7,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     @user = users(:michael)
   end
 
-  test 'login fails when login with invalid email and password' do
+  test 'should not login with invalid email and password' do
     get login_path
     assert_template 'sessions/new'
     post login_path, params: { session: {
@@ -20,7 +20,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert flash.empty?
   end
 
-  test 'login fails when login with invalid password' do
+  test 'should not login with invalid password' do
     get login_path
     assert_template 'sessions/new'
     post login_path, params: { session: {
@@ -33,7 +33,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert flash.empty?
   end
 
-  test 'valid when login with valid information' do
+  test 'should login with valid information' do
     get login_path
     post login_path, params: { session: {
       email: @user.email,
@@ -47,7 +47,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select 'a[href=?]', user_path(@user)
   end
 
-  test 'login with valid information followed by logout' do
+  test 'should login with valid information followed by logout' do
     get login_path
     post login_path, params: { session: {
       email: @user.email,
