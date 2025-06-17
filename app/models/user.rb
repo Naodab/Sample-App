@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   before_save :downcase_email
 
@@ -16,6 +18,11 @@ class User < ApplicationRecord
             format: { with: VALID_PASSWORD_REGEX }
 
   has_secure_password
+
+  def self.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
 
   private
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This configuration file will be evaluated by Puma. The top-level methods that
 # are invoked here are part of Puma's configuration DSL. For more information
 # about methods provided by the DSL, see https://puma.io/puma/Puma/DSL.html.
@@ -24,12 +26,12 @@
 # Any libraries that use a connection pool or another resource pool should
 # be configured to provide at least as many connections as the number of
 # threads. This includes Active Record's `pool` parameter in `database.yml`.
-max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
-min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
+max_threads_count = ENV.fetch('RAILS_MAX_THREADS', 5)
+min_threads_count = ENV.fetch('RAILS_MIN_THREADS') { max_threads_count }
 threads min_threads_count, max_threads_count
-port ENV.fetch("PORT") { 3000 }
-environment ENV.fetch("RAILS_ENV") { "development" }
-pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
-workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+port ENV.fetch('PORT', 3000)
+environment ENV.fetch('RAILS_ENV', 'development')
+pidfile ENV.fetch('PIDFILE', 'tmp/pids/server.pid')
+workers ENV.fetch('WEB_CONCURRENCY', 2)
 preload_app!
 plugin :tmp_restart
