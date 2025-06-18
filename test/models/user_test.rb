@@ -87,6 +87,11 @@ class UserTest < ActiveSupport::TestCase
 
   test 'valid when password contains at least one letter and one digit' do
     @user.password = @user.password_confirmation = 'zzzz111'
-    assert @user.valid?
+    assert @user.valid?test "associated microposts should be destroyed" do
+    @user.save
+    @user.microposts.create(content: "Lorem ipsum")
+    assert_difference "Micropost.count", -1 do
+      @user.destroy
+    end
   end
 end
