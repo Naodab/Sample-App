@@ -1,0 +1,25 @@
+name: Project CI workflow (br_2)
+
+on:
+  push:
+    branches: [br_2]
+  pull_request:
+    branches: [br_2]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.0'
+          bundler-cache: true
+      - run: bundle install
+      - run: bundle exec rubocop
+      - run: bundle exec rails db:migrate
+      - run: bundle exec rails db:test:prepare
+      - run: bundle exec rails test
