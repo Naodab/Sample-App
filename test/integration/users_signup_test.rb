@@ -35,11 +35,11 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     user = assigns(:user)
     assert_not user.activated?
     log_in_as(user)
-    assert_not is_logged_in?
+    assert_not logged_in?
     get edit_account_activation_path('invalid token', email: user.email)
-    assert_not is_logged_in?
+    assert_not logged_in?
     get edit_account_activation_path(user.activation_token, email: 'wrong')
-    assert_not is_logged_in?
+    assert_not logged_in?
     get edit_account_activation_path(user.activation_token, email: user.email)
     assert user.reload.activated?
     follow_redirect!
