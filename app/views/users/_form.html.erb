@@ -1,5 +1,5 @@
 <%= form_with(model: @user, data: { turbo: false }) do |f| %>
-    <%= render "shared/error_messages" %>
+    <%= render "shared/error_messages", object: @user %>
 
     <%= f.label :name %>
     <%= f.text_field :name %>
