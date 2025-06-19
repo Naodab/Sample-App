@@ -14,8 +14,8 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   resources :users
-  resources :account_activations, only: [ :edit ]
-  resources :password_resets, only: [ :new, :create, :edit, :update ]
+  resources :account_activations, only: [:edit]
+  resources :password_resets, only: %i[new create edit update]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
