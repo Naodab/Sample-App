@@ -23,6 +23,10 @@ class SessionsController < ApplicationController
   private
 
   def handle_remember_me(user)
-    params[:session][:remember_me] == '1' ? remember_user(user) : forget(user)
+    remember_me_checked? ? remember_user(user) : forget(user)
+  end
+
+  def remember_me_checked?
+    params.dig(:session, :remember_me) == '1'
   end
 end
