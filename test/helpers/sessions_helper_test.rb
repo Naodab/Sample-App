@@ -8,8 +8,7 @@ class SessionsHelperTest < ActionView::TestCase
     remember_user @user
   end
 
-  test 'current returns right when sessions is nil' do
+  test 'should login via remember token cookie' do
     assert_equal @user, current_user
-    # assert is_logged_in?
   end
 end

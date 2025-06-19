@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user&.authenticate(params[:session][:password])
       log_in user
-      params[:session][:remember_me] == '1' ? remember_user(user) : forget(user)
+      handle_remember_me user
       redirect_to user
     else
       flash.now[:danger] = 'Invalid email/password combination'
@@ -18,5 +18,11 @@ class SessionsController < ApplicationController
   def destroy
     log_out if logged_in?
     redirect_to root_path
+  end
+
+  private
+
+  def handle_remember_me(user)
+    params[:session][:remember_me] == '1' ? remember_user(user) : forget(user)
   end
 end
