@@ -459,6 +459,21 @@ h2 {
   color:rgb(58, 143, 223);
 }
 
+.user_info {
+  .user-link-container {
+    width: 100%;
+
+    .user-info__link {
+      font-size: 14px !important;
+      text-align: left;
+      letter-spacing: 2px;
+      width: 100%;
+      display: block;
+      margin: 8px 0;
+    }
+  }
+}
+
 .label-with-link {
   display: flex;
   justify-content: space-between;
@@ -470,6 +485,50 @@ h2 {
 
     &:hover {
       text-decoration: underline;
+    }
+  }
+}
+
+.micropost {
+  display: flex;
+  margin: 4px 0;
+
+  .gravatar {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    border: 1px solid #666;
+  }
+
+  .content-micropost-container {
+    border: 2px solid #666;
+    border-radius: 4px;
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px !important;
+
+    .content-micropost__header {
+      padding: 4px 8px;
+      border-bottom: 2px solid #666;
+
+      .user {
+        font-size: 20px;
+        font-weight: bold;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .timestamps {
+        color: #555;
+      }
+    }
+
+    .content {
+      font-size: 18px;
+      padding: 4px 8px;
     }
   }
 }

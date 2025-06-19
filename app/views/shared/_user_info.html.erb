@@ -1,0 +1,9 @@
+<h1>
+    <%= gravatar_for current_user, 80 %>
+    <div>
+        <%= current_user.name %>
+        <div class="user-link-container">
+            <%= link_to "View my profile", current_user, class: "user-info__link user-link"%>
+        </div>
+    </div>
+</h1>
