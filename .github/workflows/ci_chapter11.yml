@@ -1,10 +1,10 @@
-name: Project CI workflow (br_2)
+name: Project CI workflow (chapter_11)
 
 on:
   push:
-    branches: [br_2]
+    branches: [chapter_11]
   pull_request:
-    branches: [br_2]
+    branches: [chapter_11]
 
 jobs:
   ci:
