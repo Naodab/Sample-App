@@ -1,18 +1,19 @@
+# frozen_string_literal: true
+
 class MicropostsController < ApplicationController
   before_action :logged_in_user, only: %i[create destroy]
 
   def create
     @micropost = current_user.micropost.build micropost_params
     if @micropost.save
-      flash[:success] = "Micropost created!"
+      flash[:success] = 'Micropost created!'
       redirect_to root_url
     else
-      render "static_pages/home"
+      render 'static_pages/home'
     end
   end
 
-  def destroy
-  end
+  def destroy; end
 
   private
 
