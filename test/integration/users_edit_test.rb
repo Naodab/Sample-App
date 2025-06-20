@@ -5,6 +5,7 @@ require 'test_helper'
 class UsersEditTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:michael)
+    @other_user = users(:archer)
   end
 
   test 'unsuccessful edit' do
@@ -37,5 +38,13 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     @user.reload
     assert_equal name, @user.name
     assert_equal email, @user.email
+  end
+
+  test 'should not allow admin attribute to be edited by user' do
+    log_in_as(@other_user)
+    assert_not @other_user.admin?
+    patch user_url(@other_user), params: { user: { admin: true } }
+    @other_user.reload
+    assert_not @other_user.admin?
   end
 end
