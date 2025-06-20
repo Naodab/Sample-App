@@ -70,6 +70,10 @@ class User < ApplicationRecord
     update_attribute("#{attribute}_digest", nil)
   end
 
+  def feed
+    microposts
+  end
+
   private
 
   def downcase_email

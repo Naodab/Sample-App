@@ -1,14 +1,15 @@
 <% if logged_in? %>
-    <div class="content-container center center--column">
-        <div class="row">
-            <aside>
-                <section class="user_info">
-                    <%= render 'shared/user_info' %>
-                </section>
-                <section>
-                    <%= render 'shared/micropost_form' %>
-                </section>
-            </aside>
+    <div class="home-container">
+        <div class="left" data-sticky-left-target="sidebar">
+            <div class="">
+                <%= render 'shared/user_info' %>
+            </div>
+            <div>
+                <%= render 'shared/micropost_form' %>
+            </div>
+        </div>
+        <div class="right">
+            <%= render "shared/feed" %>
         </div>
     </div>
 <% else %>
