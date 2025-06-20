@@ -5,8 +5,11 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 8.0.2'
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
+gem 'active_storage_validations'
 gem 'bcrypt'
 gem 'faker'
+gem 'image_processing'
+gem 'mini_magick'
 gem 'sassc-rails'
 gem 'sprockets-rails'
 gem 'will_paginate'
