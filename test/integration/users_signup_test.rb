@@ -31,4 +31,18 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_template 'users/show'
     assert logged_in?
   end
+
+  test 'should not allow admin attribute to be set via signup' do
+    assert_difference 'User.count', 1 do
+      post users_path, params: { user: {
+        name: 'example',
+        email: 'example@example.com',
+        password: 'zzz111',
+        password_confirmation: 'zzz111',
+        admin: true
+      } }
+    end
+    user = User.find_by(email: 'example@example.com')
+    assert_not user.admin?
+  end
 end
