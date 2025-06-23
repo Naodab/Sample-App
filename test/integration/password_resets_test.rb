@@ -1,0 +1,78 @@
+# frozen_string_literal: true
+
+require 'test_helper'
+
+class PasswordResetsTest < ActionDispatch::IntegrationTest
+  def setup
+    ActionMailer::Base.deliveries.clear
+    @user = users(:michael)
+  end
+
+  test 'should not reset password when token has expired' do
+    get new_password_reset_path
+    post password_resets_path,
+         params: { password_reset: { email: @user.email } }
+    @user = assigns(:user)
+    @user.update_attribute(:reset_sent_at, 3.hours.ago)
+    patch password_reset_path(@user.reset_token),
+          params: { email: @user.email,
+                    user: { password: 'foobar',
+                            password_confirmation: 'foobar' } }
+    assert_response :redirect
+    follow_redirect!
+    assert_match 'expired', response.body
+  end
+
+  test 'password reset form renders correctly' do
+    get new_password_reset_url
+    assert_template 'password_resets/new'
+    assert_select 'input[name=?]', 'password_reset[email]'
+  end
+
+  test 'invalid email submission shows error' do
+    post password_resets_path, params: { password_reset: { email: '' } }
+    assert_not flash.empty?
+    assert_redirected_to root_url
+  end
+
+  test 'valid email sends reset email and handles bad tokens' do
+    post password_resets_path, params: { password_reset: { email: @user.email } }
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_not flash.empty?
+    assert_redirected_to root_url
+
+    user = assigns(:user)
+
+    get edit_password_reset_path(user.reset_token, email: '')
+    assert_redirected_to root_url
+
+    user.toggle!(:activated)
+    get edit_password_reset_path(user.reset_token, email: user.email)
+    assert_redirected_to root_url
+    user.toggle!(:activated)
+
+    get edit_password_reset_path('wrong token', email: user.email)
+    assert_redirected_to root_url
+  end
+
+  test 'password reset with valid token works correctly' do
+    post password_resets_path, params: { password_reset: { email: @user.email } }
+    user = assigns(:user)
+
+    get edit_password_reset_path(user.reset_token, email: user.email)
+    assert_template 'password_resets/edit'
+    assert_select 'input[name=email][type=hidden][value=?]', user.email
+
+    patch password_reset_path(user.reset_token),
+          params: { user: { password: 'foo', password_confirmation: 'bar' },
+                    email: user.email }
+    assert_select 'div#error_explanation'
+
+    patch password_reset_path(user.reset_token),
+          params: { user: { password: 'zzz111', password_confirmation: 'zzz111' },
+                    email: user.email }
+    assert logged_in?
+    assert_not flash.empty?
+    assert_redirected_to user
+  end
+end

@@ -458,3 +458,18 @@ h2 {
 .user-link {
   color:rgb(58, 143, 223);
 }
+
+.label-with-link {
+  display: flex;
+  justify-content: space-between;
+
+  .forgot-password-link {
+    color:rgb(58, 143, 223);
+    cursor: pointer;
+    display: inline-block;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

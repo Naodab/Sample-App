@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
 
   before_create :create_activation_digest
   before_save :downcase_email
 
+  PASSWORD_RESET_EXPIRATION = 2.hours
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@([a-z\d]+(-[a-z\d]+)*\.)+[a-z]+\z/i
   VALID_PASSWORD_REGEX = /\A(?=.*[A-Za-z])(?=.*\d).+\z/i
 
@@ -37,8 +38,21 @@ class User < ApplicationRecord
     update_columns(activated: true, activated_at: Time.zone.now)
   end
 
+  def password_reset_expired?
+    reset_sent_at < PASSWORD_RESET_EXPIRATION.ago
+  end
+
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_columns(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)
+  end
+
   def send_activation_email
     UserMailer.account_activation(self).deliver_now
+  end
+
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
   end
 
   def remember
@@ -51,8 +65,8 @@ class User < ApplicationRecord
     digest.nil? ? false : BCrypt::Password.new(digest).is_password?(token)
   end
 
-  def forget
-    update_attribute(:remember_digest, nil)
+  def forget(attribute)
+    update_attribute("#{attribute}_digest", nil)
   end
 
   def valid_activation_token?(token)
