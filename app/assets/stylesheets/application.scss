@@ -184,6 +184,7 @@ nav {
 
 .main-content {
   padding: 0 32px;
+  position: relative;
 }
 
 h1,
@@ -459,6 +460,16 @@ h2 {
   color:rgb(58, 143, 223);
 }
 
+.user-info__link {
+  font-size: 14px !important;
+  text-align: left;
+  letter-spacing: 2px;
+  width: 100%;
+  display: block;
+  margin: 8px 0;
+  text-align: center;
+}
+
 .label-with-link {
   display: flex;
   justify-content: space-between;
@@ -471,5 +482,130 @@ h2 {
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.micropost {
+  display: flex;
+  margin: 4px 0;
+
+  .delete-link {
+    color: #ff4d4d;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  img {
+    display: block;
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+  }
+
+
+  .micropost-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #666;
+    padding: 4px 8px;
+  }
+
+  .gravatar {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    border: 1px solid #666;
+  }
+
+  .content-micropost-container {
+    border: 2px solid #666;
+    border-radius: 4px;
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px !important;
+
+    .content-micropost__header {
+      flex: 1;
+
+      .user {
+        font-size: 20px;
+        font-weight: bold;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .timestamps {
+        color: #555;
+      }
+    }
+
+    .content {
+      font-size: 18px;
+      padding: 4px 8px;
+    }
+  }
+}
+
+.micropost-form-title {
+  color: black;
+  letter-spacing: 2px;
+}
+
+.micropost-form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .field_with_errors {
+    width: 100%;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 4px 8px;
+    border: 2px solid #666;
+    height: 150px;
+    margin-bottom: 8px;
+  }
+}
+
+.home-container {
+  display: flex;
+}
+
+.left {
+  width: 400px;
+  padding: 20px;
+  position: fixed;
+}
+
+.right {
+  margin-left: 400px;
+  flex: 1;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    flex-direction: column;
+  }
+
+  .left {
+    position: static !important;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .right {
+    margin-left: 0;
   }
 }

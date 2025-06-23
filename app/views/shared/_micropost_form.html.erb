@@ -1,0 +1,27 @@
+<h2 class="micropost-form-title">Create post</h2>
+
+<%= render 'shared/error_messages', object: @micropost %>
+<%= form_with(model: @micropost, data: { turbo: false }, html: { multipart: true }, class: "micropost-form") do |f| %>
+    <%= f.text_area :content, placeholder: "Compose new micropost..." %>
+    <%= f.submit "Post", class: "btn btn-primary" %>
+    <span class="image">
+        <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png"  %>
+    </span>
+<% end %>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.getElementById("micropost_image");
+        const MAX_FILE_SIZE_MB = <%= Micropost::MAXIMUM_IMAGE_SIZE %>;
+
+        fileInput.addEventListener("change", function () {
+            const file = fileInput.files[0];
+            const sizeInMB = file.size / 1024 / 1024;
+
+            if (sizeInMB > MAX_FILE_SIZE_MB) {
+                alert(`Maximum file size is ${MAX_FILE_SIZE_MB}MB. Please choose a smaller file.`);
+                fileInput.value = ""; // reset input
+            }
+        });
+    });
+</script>
