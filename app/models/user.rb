@@ -95,6 +95,10 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
+  def valid_activation_token?(token)
+    authenticated?(:activation, token)
+  end
+
   private
 
   def downcase_email
