@@ -72,7 +72,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    Micropost.where(user_id: id).includes(:user)
+    Micropost.where(user_id: id).includes(:user, image_attachment: :blob)
   end
 
   def valid_activation_token?(token)
