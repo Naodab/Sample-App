@@ -101,6 +101,10 @@ class User < ApplicationRecord
     authenticated?(:activation, token)
   end
 
+  def microposts_with_images
+    microposts.includes(:image_attachment)
+  end
+
   private
 
   def downcase_email
