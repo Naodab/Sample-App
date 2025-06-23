@@ -416,3 +416,45 @@ h2 {
   background-color: #fff3cd;
   border-color: #ffeeba;
 }
+
+.users {
+  list-style: none;
+  margin: 0;
+
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.pagination a, .pagination span, .pagination em {
+  margin: 0 5px;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #007bff;
+}
+
+.pagination a:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination .current {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.user-link {
+  color:rgb(58, 143, 223);
+}

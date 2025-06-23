@@ -6,8 +6,10 @@ source 'https://rubygems.org'
 gem 'rails', '~> 8.0.2'
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem 'bcrypt'
+gem 'faker'
 gem 'sassc-rails'
 gem 'sprockets-rails'
+gem 'will_paginate'
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '>= 5.0'
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
