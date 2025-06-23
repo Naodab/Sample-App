@@ -68,6 +68,10 @@ class User < ApplicationRecord
     update_attribute("#{attribute}_digest", nil)
   end
 
+  def valid_activation_token?(token)
+    authenticated?(:activation, token)
+  end
+
   private
 
   def downcase_email
