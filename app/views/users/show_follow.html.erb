@@ -1,0 +1,29 @@
+<% provide(:title, @title) %>
+
+<div class="follow-container">
+    <div class="left">
+        <div class="user_info">
+            <%= render 'shared/user_info' %>
+            <span><b>Microposts:</b> <%= @user.microposts.count %></span>
+        </div>
+        <div class="stats">
+            <%= render 'shared/stats' %>
+        </div>
+        <% if @users.any? %>
+            <div class="user_avatars">
+                <% @users.each do |user| %>
+                <%= link_to gravatar_for(user, 30), user %>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+    <div class="right">
+        <h3><%= @title %></h3>
+        <% if @users.any? %>
+            <ul class="users follow">
+                <%= render @users %>
+            </ul>
+            <%= will_paginate %>
+        <% end %>
+    </div>
+</div>

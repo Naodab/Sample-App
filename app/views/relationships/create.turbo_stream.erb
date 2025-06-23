@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "follow_form" do %>
+  <%= render "users/follow_form", user: @user %>
+<% end %>
+
+<%= turbo_stream.replace "followers-number" do %>
+  <span id="followers-number"><%= @user.followers.count %></span>
+<% end %>

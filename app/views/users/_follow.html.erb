@@ -1,0 +1,4 @@
+<%= form_with(url: relationships_path, method: :post) do |f| %>
+    <%= hidden_field_tag :followed_id, user.id %>
+    <%= f.submit "Follow", class: "btn btn-primary" %>
+<% end %>
