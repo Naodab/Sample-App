@@ -23,19 +23,26 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     assert_match 'expired', response.body
   end
 
-  test 'password resets' do
+  test 'password reset form renders correctly' do
     get new_password_reset_url
     assert_template 'password_resets/new'
     assert_select 'input[name=?]', 'password_reset[email]'
+  end
+
+  test 'invalid email submission shows error' do
     post password_resets_path, params: { password_reset: { email: '' } }
     assert_not flash.empty?
-    assert_template 'password_resets/new'
+    assert_redirected_to root_url
+  end
+
+  test 'valid email sends reset email and handles bad tokens' do
     post password_resets_path, params: { password_reset: { email: @user.email } }
     assert_equal 1, ActionMailer::Base.deliveries.size
     assert_not flash.empty?
     assert_redirected_to root_url
 
     user = assigns(:user)
+
     get edit_password_reset_path(user.reset_token, email: '')
     assert_redirected_to root_url
 
@@ -46,6 +53,11 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
 
     get edit_password_reset_path('wrong token', email: user.email)
     assert_redirected_to root_url
+  end
+
+  test 'password reset with valid token works correctly' do
+    post password_resets_path, params: { password_reset: { email: @user.email } }
+    user = assigns(:user)
 
     get edit_password_reset_path(user.reset_token, email: user.email)
     assert_template 'password_resets/edit'

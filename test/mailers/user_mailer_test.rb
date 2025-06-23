@@ -3,26 +3,35 @@
 require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
-  test 'account_activation' do
-    user = users(:michael)
-    user.activation_token = User.new_token
-    mail = UserMailer.account_activation user
-    assert_equal 'Account activation', mail.subject
-    assert_equal [user.email], mail.to
+  def setup
+    @user = users(:michael)
+  end
+
+  def prepare_token(token_type)
+    @user = users(:michael)
+    token = User.new_token
+    @user.send("#{token_type}_token=", token)
+    token
+  end
+
+  def assert_user_mail(token_type, mailer_method, subject_text)
+    token = prepare_token(token_type)
+    mail = UserMailer.send(mailer_method, @user)
+
+    assert_equal subject_text, mail.subject
+    assert_equal [@user.email], mail.to
     assert_equal ['from@example.com'], mail.from
-    assert_match user.name, mail.body.encoded
-    assert_match user.activation_token, mail.body.encoded
-    assert_match CGI.escape(user.email), mail.body.encoded
+    assert_match token, mail.body.encoded
+    assert_match CGI.escape(@user.email), mail.body.encoded
+    mail
+  end
+
+  test 'account_activation' do
+    mail = assert_user_mail(:activation, :account_activation, 'Account activation')
+    assert_match @user.name, mail.body.encoded
   end
 
   test 'password_reset' do
-    user = users(:michael)
-    user.reset_token = User.new_token
-    mail = UserMailer.password_reset user
-    assert_equal 'Password reset', mail.subject
-    assert_equal [user.email], mail.to
-    assert_equal ['from@example.com'], mail.from
-    assert_match user.reset_token, mail.body.encoded
-    assert_match CGI.escape(user.email), mail.body.encoded
+    assert_user_mail(:reset, :password_reset, 'Password reset')
   end
 end

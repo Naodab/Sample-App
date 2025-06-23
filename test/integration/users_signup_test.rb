@@ -7,6 +7,15 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
+  def valid_user_params
+    {
+      name: 'Example User',
+      email: 'user@example.com',
+      password: 'zzzz111',
+      password_confirmation: 'zzzz111'
+    }
+  end
+
   test 'invalid signup information' do
     get signup_path
     assert_no_difference 'User.count' do
@@ -21,25 +30,44 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_select 'div#error_explanation'
   end
 
-  test 'valid signup information with account activation' do
+  test 'should signup with valid information creates a user and sends activation email' do
     get signup_path
     assert_difference 'User.count', 1 do
-      post users_path, params: { user: {
-        name: 'Example User',
-        email: 'user@example.com',
-        password: 'zzzz111',
-        password_confirmation: 'zzzz111'
-      } }
+      post users_path, params: { user: valid_user_params }
     end
     assert_equal 1, ActionMailer::Base.deliveries.size
+  end
+
+  test 'user should not be activated immediately after signup' do
+    post users_path, params: { user: valid_user_params }
     user = assigns(:user)
     assert_not user.activated?
+  end
+
+  test 'should not log in before account activation' do
+    post users_path, params: { user: valid_user_params }
+    user = assigns(:user)
     log_in_as(user)
     assert_not logged_in?
+  end
+
+  test 'should activate fails with invalid token' do
+    post users_path, params: { user: valid_user_params }
+    user = assigns(:user)
     get edit_account_activation_path('invalid token', email: user.email)
     assert_not logged_in?
-    get edit_account_activation_path(user.activation_token, email: 'wrong')
+  end
+
+  test 'should activate fails with wrong email' do
+    post users_path, params: { user: valid_user_params }
+    user = assigns(:user)
+    get edit_account_activation_path(user.activation_token, email: 'wrong@example.com')
     assert_not logged_in?
+  end
+
+  test 'should activate succeeds with correct token and email' do
+    post users_path, params: { user: valid_user_params }
+    user = assigns(:user)
     get edit_account_activation_path(user.activation_token, email: user.email)
     assert user.reload.activated?
     follow_redirect!

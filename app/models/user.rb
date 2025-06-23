@@ -8,6 +8,7 @@ class User < ApplicationRecord
   before_create :create_activation_digest
   before_save :downcase_email
 
+  PASSWORD_RESET_EXPIRATION = 2.hours
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@([a-z\d]+(-[a-z\d]+)*\.)+[a-z]+\z/i
   VALID_PASSWORD_REGEX = /\A(?=.*[A-Za-z])(?=.*\d).+\z/i
 
@@ -40,7 +41,7 @@ class User < ApplicationRecord
   end
 
   def password_reset_expired?
-    reset_sent_at < 2.hours.ago
+    reset_sent_at < PASSWORD_RESET_EXPIRATION.ago
   end
 
   def create_reset_digest
@@ -72,6 +73,10 @@ class User < ApplicationRecord
 
   def feed
     microposts
+  end
+
+  def valid_activation_token?(token)
+    authenticated?(:activation, token)
   end
 
   private
