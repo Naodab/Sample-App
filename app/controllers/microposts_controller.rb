@@ -9,11 +9,10 @@ class MicropostsController < ApplicationController
     @micropost.image.attach(params[:micropost][:image])
     if @micropost.save
       flash[:success] = 'Micropost created!'
-      redirect_to root_url
     else
-      @feed_items = current_user.feed.paginate(page: params[:page])
-      render 'static_pages/home'
+      flash[:danger] = @micropost.errors.full_messages.to_sentence
     end
+    redirect_to root_url
   end
 
   def destroy
