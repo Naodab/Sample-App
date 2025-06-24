@@ -66,6 +66,6 @@ class FollowingTest < ActionDispatch::IntegrationTest
     assert_no_difference '@user.following.count' do
       post relationships_path, params: { followed_id: -1 }
     end
-    assert_response :unprocessable_entity
+    assert_response :not_found
   end
 end

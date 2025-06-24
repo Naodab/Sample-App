@@ -4,7 +4,7 @@
         <%= form_with(
             url: is_following ? relationship_path(current_user.active_relationships.find_by(followed_id: @user.id)) : relationships_path,
             method: is_following ? :delete : :post,
-            local: true
+            data: { controller: "follow-button" }
             ) do %>
 
         <% unless is_following %>
@@ -13,7 +13,8 @@
 
         <%= submit_tag(
                 (is_following ? "Unfollow" : "Follow"),
-                class: "btn #{is_following ? 'btn-secondary' : 'btn-primary'}"
+                class: "btn #{is_following ? 'btn-secondary' : 'btn-primary'}",
+                data: { action: "follow-button#disable" }
             ) %>
         <% end %>
     </div>
