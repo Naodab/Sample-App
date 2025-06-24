@@ -1,9 +1,20 @@
+<% is_following = current_user.following?(@user) %>
 <% unless current_user?(@user) %>
     <div id="follow_form">
-        <% if current_user.following?(@user) %>
-            <%= render 'users/unfollow', user: @user %>
-        <% else %>
-            <%= render 'users/follow', user: @user %>
+        <%= form_with(
+            url: is_following ? relationship_path(current_user.active_relationships.find_by(followed_id: @user.id)) : relationships_path,
+            method: is_following ? :delete : :post,
+            local: true
+            ) do %>
+
+        <% unless is_following %>
+            <%= hidden_field_tag :followed_id, @user.id %>
+        <% end %>
+
+        <%= submit_tag(
+                (is_following ? "Unfollow" : "Follow"),
+                class: "btn #{is_following ? 'btn-secondary' : 'btn-primary'}"
+            ) %>
         <% end %>
     </div>
 <% end %>
