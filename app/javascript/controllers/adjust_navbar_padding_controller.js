@@ -10,7 +10,10 @@ export default class extends Controller {
   }
 
   disconnect() {
-    this.resetPadding();
+    window.removeEventListener("resize", this._resizeHandler);
+    if (this.hasContentTarget) {
+      this.contentTarget.style.paddingTop = null;
+    }
   }
 
   adjustPadding() {

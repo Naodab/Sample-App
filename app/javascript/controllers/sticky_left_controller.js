@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sidebar", "footer", "header"]
+  static targets = ["sidebar", "footer"]
 
   connect() {
     this.handleScroll = this.handleScroll.bind(this)
@@ -13,6 +13,9 @@ export default class extends Controller {
   }
 
   handleScroll() {
+    if (!this.sidebarTarget)
+      return
+
     if (window.innerWidth < 768) {
       this.sidebarTarget.style.position = "static"
       return
@@ -30,7 +33,6 @@ export default class extends Controller {
       sidebar.style.bottom = "0"
     } else {
       sidebar.style.position = "fixed"
-      sidebar.style.top = `${marginTop + this.headerTarget.offsetHeight}px`
       sidebar.style.bottom = "auto"
     }
   }

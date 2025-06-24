@@ -1,0 +1,20 @@
+<% is_following = current_user.following?(@user) %>
+<% unless current_user?(@user) %>
+    <div id="follow_form">
+        <%= form_with(
+            url: is_following ? relationship_path(current_user.active_relationships.find_by(followed_id: @user.id)) : relationships_path,
+            method: is_following ? :delete : :post,
+            data: { controller: "follow-button", action: "turbo:submit-start->follow-button#disableOnSubmit" }
+            ) do %>
+
+        <% unless is_following %>
+            <%= hidden_field_tag :followed_id, @user.id %>
+        <% end %>
+
+        <%= submit_tag(
+                (is_following ? "Unfollow" : "Follow"),
+                class: "btn #{is_following ? 'btn-secondary' : 'btn-primary'}"
+            ) %>
+        <% end %>
+    </div>
+<% end %>
