@@ -54,4 +54,18 @@ class FollowingTest < ActionDispatch::IntegrationTest
       delete relationship_path(relationship), xhr: true
     end
   end
+
+  test 'should not follow oneself' do
+    assert_no_difference '@user.following.count' do
+      post relationships_path, params: { followed_id: @user.id }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test 'should not follow a nonexistent user' do
+    assert_no_difference '@user.following.count' do
+      post relationships_path, params: { followed_id: -1 }
+    end
+    assert_response :unprocessable_entity
+  end
 end
